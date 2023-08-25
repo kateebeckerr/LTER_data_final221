@@ -1,0 +1,55 @@
+---
+title: "final_LTER_proj"
+format: html
+editor: visual
+---
+
+Libraries
+
+```{r}
+library(tidyverse)
+library(skimr)
+library(tidytext)
+library(here)
+library(ggplot2)
+library(janitor)
+
+
+```
+
+-   Read in both files (ice cover duration and meteorological data). Note that the ice cover data has some NA values stored as -999.
+
+```{r}
+icedata <- read_csv(here::here("data", "meteor.csv" ), na = c("-999")) %>%
+  clean_names()
+
+
+lale <- read_csv(here::here("data", "lakes.csv"), na = c("-999")) %>%
+  clean_names()
+```
+
+-   Create a visualization that compares ice duration across different lakes in the Madison Lake Area. Include both the actual ice duration values *and* some representation of summary statistics for each lake. Careful if you use a boxplot over a jitter or beeswarm - what values might be doubly represented? Can you find an argument that would help you remove those from the boxplot?
+
+```{r}
+ggplot(data = lale, aes(x = lakeid, y = editlale)) +
+  geom_boxplot() +
+  geom_line(data = editlale)
+
+```
+
+```{r}
+editlale <- lale %>%
+  group_by("lakeid") %>%
+  summarize(mean_duration = mean(ice_duration, na.rm = TRUE),
+            sd_duration = sd(ice_duration, na.rm = TRUE))
+  
+```
+
+```{r}
+ggplot(data = lizards, aes(x = total_length, y = weight, colour = common_name)) +
+  geom_point() +
+  facet_wrap(~ common_name, scales =
+               
+    
+               
+```
